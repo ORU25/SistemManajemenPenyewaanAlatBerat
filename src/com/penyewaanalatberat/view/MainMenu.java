@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.penyewaanalatberat.view;
-
+import com.penyewaanalatberat.view.FormAlatBerat;
+import com.penyewaanalatberat.view.FormPenyewaan;
 /**
  *
  * @author oru
@@ -26,21 +27,203 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane5 = new javax.swing.JTabbedPane();
+        jPanelHome = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanelAlatBerat = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableAlatBerat = new javax.swing.JTable();
+        jButtonDeleteAlatBerat = new javax.swing.JButton();
+        jButtonUpdateAlatBerat = new javax.swing.JButton();
+        jButtonTambahAlatBerat = new javax.swing.JButton();
+        jPanelPenyewaan = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTablePenyewaan = new javax.swing.JTable();
+        jButtonTambahPenyewaan = new javax.swing.JButton();
+        jButtonUpdatePenyewaan = new javax.swing.JButton();
+        jButtonDeletePenyewaan = new javax.swing.JButton();
+        jButtonCetakStruk = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Sistem Manajemen Penyewaan Alat Berat");
+
+        javax.swing.GroupLayout jPanelHomeLayout = new javax.swing.GroupLayout(jPanelHome);
+        jPanelHome.setLayout(jPanelHomeLayout);
+        jPanelHomeLayout.setHorizontalGroup(
+            jPanelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHomeLayout.createSequentialGroup()
+                .addGap(180, 180, 180)
+                .addComponent(jLabel1)
+                .addContainerGap(206, Short.MAX_VALUE))
+        );
+        jPanelHomeLayout.setVerticalGroup(
+            jPanelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHomeLayout.createSequentialGroup()
+                .addGap(190, 190, 190)
+                .addComponent(jLabel1)
+                .addContainerGap(197, Short.MAX_VALUE))
+        );
+
+        jTabbedPane5.addTab("Home", jPanelHome);
+
+        jTableAlatBerat.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Jenis", "Nama", "Harga Sewa"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTableAlatBerat);
+
+        jButtonDeleteAlatBerat.setText("Delete");
+
+        jButtonUpdateAlatBerat.setText("Update");
+        jButtonUpdateAlatBerat.setToolTipText("");
+
+        jButtonTambahAlatBerat.setText("Tambah");
+        jButtonTambahAlatBerat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTambahAlatBeratActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelAlatBeratLayout = new javax.swing.GroupLayout(jPanelAlatBerat);
+        jPanelAlatBerat.setLayout(jPanelAlatBeratLayout);
+        jPanelAlatBeratLayout.setHorizontalGroup(
+            jPanelAlatBeratLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAlatBeratLayout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(jPanelAlatBeratLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelAlatBeratLayout.createSequentialGroup()
+                        .addComponent(jButtonTambahAlatBerat)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonUpdateAlatBerat)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonDeleteAlatBerat))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15))
+        );
+        jPanelAlatBeratLayout.setVerticalGroup(
+            jPanelAlatBeratLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAlatBeratLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelAlatBeratLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonDeleteAlatBerat)
+                    .addComponent(jButtonUpdateAlatBerat)
+                    .addComponent(jButtonTambahAlatBerat))
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        jTabbedPane5.addTab("Alat Berat", jPanelAlatBerat);
+
+        jTablePenyewaan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nama Penyewa", "Alat Berat", "Lama Sewa", "Total Biaya"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTablePenyewaan);
+
+        jButtonTambahPenyewaan.setText("Tambah");
+        jButtonTambahPenyewaan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTambahPenyewaanActionPerformed(evt);
+            }
+        });
+
+        jButtonUpdatePenyewaan.setText("Update");
+        jButtonUpdatePenyewaan.setToolTipText("");
+
+        jButtonDeletePenyewaan.setText("Delete");
+
+        jButtonCetakStruk.setText("Tambah");
+
+        javax.swing.GroupLayout jPanelPenyewaanLayout = new javax.swing.GroupLayout(jPanelPenyewaan);
+        jPanelPenyewaan.setLayout(jPanelPenyewaanLayout);
+        jPanelPenyewaanLayout.setHorizontalGroup(
+            jPanelPenyewaanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPenyewaanLayout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(jPanelPenyewaanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanelPenyewaanLayout.createSequentialGroup()
+                        .addComponent(jButtonCetakStruk)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonTambahPenyewaan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonUpdatePenyewaan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonDeletePenyewaan))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14))
+        );
+        jPanelPenyewaanLayout.setVerticalGroup(
+            jPanelPenyewaanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPenyewaanLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelPenyewaanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonDeletePenyewaan)
+                    .addComponent(jButtonUpdatePenyewaan)
+                    .addComponent(jButtonTambahPenyewaan)
+                    .addComponent(jButtonCetakStruk))
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        jTabbedPane5.addTab("Penyewaan", jPanelPenyewaan);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 642, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 442, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonTambahAlatBeratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTambahAlatBeratActionPerformed
+        FormAlatBerat form = new FormAlatBerat();
+        form.setVisible(true);
+    }//GEN-LAST:event_jButtonTambahAlatBeratActionPerformed
+
+    private void jButtonTambahPenyewaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTambahPenyewaanActionPerformed
+        // TODO add your handling code here:
+        FormPenyewaan form = new FormPenyewaan();
+        form.setVisible(true);
+    }//GEN-LAST:event_jButtonTambahPenyewaanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +261,21 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCetakStruk;
+    private javax.swing.JButton jButtonDeleteAlatBerat;
+    private javax.swing.JButton jButtonDeletePenyewaan;
+    private javax.swing.JButton jButtonTambahAlatBerat;
+    private javax.swing.JButton jButtonTambahPenyewaan;
+    private javax.swing.JButton jButtonUpdateAlatBerat;
+    private javax.swing.JButton jButtonUpdatePenyewaan;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanelAlatBerat;
+    private javax.swing.JPanel jPanelHome;
+    private javax.swing.JPanel jPanelPenyewaan;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane5;
+    private javax.swing.JTable jTableAlatBerat;
+    private javax.swing.JTable jTablePenyewaan;
     // End of variables declaration//GEN-END:variables
 }
