@@ -387,7 +387,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jTableAlatBeratMouseClicked
 
     private void jButtonDeleteAlatBeratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteAlatBeratActionPerformed
-        // TODO add your handling code here:
+        handleDeleteAlat();
     }//GEN-LAST:event_jButtonDeleteAlatBeratActionPerformed
 
     private void jButtonBatalAlatBeratMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonBatalAlatBeratMouseClicked
@@ -533,6 +533,30 @@ public class MainMenu extends javax.swing.JFrame {
         refreshAlatTable();
         clearAlatForm();
         jTableAlatBerat.clearSelection();
+    }
+
+    private void handleDeleteAlat() {
+        int row = jTableAlatBerat.getSelectedRow();
+        if (row < 0 || row >= alatList.size()) {
+            JOptionPane.showMessageDialog(this, "Pilih data pada tabel terlebih dahulu.");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Hapus data alat berat yang dipilih?",
+                "Konfirmasi",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        alatList.remove(row);
+        refreshAlatTable();
+        jTableAlatBerat.clearSelection();
+        clearAlatForm();
     }
 
     private AlatBerat buildAlatFromForm(String id) {
