@@ -16,6 +16,10 @@ public class Crane extends AlatBerat {
         this.kapasitasAngkat = kapasitasAngkat;
     }
 
+    public double getKapasitasAngkat() {
+        return kapasitasAngkat;
+    }
+
     @Override
     protected void cetakInfoAlat() {
         super.cetakInfoAlat();

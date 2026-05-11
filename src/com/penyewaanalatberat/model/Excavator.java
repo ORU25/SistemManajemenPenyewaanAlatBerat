@@ -16,6 +16,10 @@ public class Excavator extends AlatBerat {
         this.kapasitasBucket = kapasitasBucket;
     }
 
+    public double getKapasitasBucket() {
+        return kapasitasBucket;
+    }
+
     @Override
     protected void cetakInfoAlat() {
         super.cetakInfoAlat();

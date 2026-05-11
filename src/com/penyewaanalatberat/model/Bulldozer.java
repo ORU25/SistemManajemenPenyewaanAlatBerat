@@ -16,6 +16,10 @@ public class Bulldozer extends AlatBerat{
         this.tipeBlade = tipeBlade;
     }
 
+    public String getTipeBlade() {
+        return tipeBlade;
+    }
+    
     @Override
     protected void cetakInfoAlat() {
         super.cetakInfoAlat();

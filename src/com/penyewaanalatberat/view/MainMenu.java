@@ -4,11 +4,22 @@
  */
 package com.penyewaanalatberat.view;
 
+import com.penyewaanalatberat.model.AlatBerat;
+import com.penyewaanalatberat.model.Bulldozer;
+import com.penyewaanalatberat.model.Crane;
+import com.penyewaanalatberat.model.Excavator;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author oru
  */
 public class MainMenu extends javax.swing.JFrame {
+
+    private final List<AlatBerat> alatList = new ArrayList<>();
 
     /**
      * Creates new form MainMenu
@@ -19,6 +30,8 @@ public class MainMenu extends javax.swing.JFrame {
         labelPropTambahan.setVisible(false);
         jTxtTambahan.setVisible(false);
         jCmbJenis.setSelectedIndex(-1);
+
+        refreshAlatTable();
     }
 
     /**
@@ -107,6 +120,11 @@ public class MainMenu extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jTableAlatBerat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableAlatBeratMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableAlatBerat);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -135,16 +153,36 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel1.add(jTxtTambahan, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 114, 191, -1));
 
         jButtonTambahAlatBerat.setText("Tambah");
+        jButtonTambahAlatBerat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTambahAlatBeratActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButtonTambahAlatBerat, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
 
         jButtonUpdateAlatBerat.setText("Update");
         jButtonUpdateAlatBerat.setToolTipText("");
+        jButtonUpdateAlatBerat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateAlatBeratActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButtonUpdateAlatBerat, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, -1, -1));
 
         jButtonBatalAlatBerat.setText("Batal");
+        jButtonBatalAlatBerat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonBatalAlatBeratMouseClicked(evt);
+            }
+        });
         jPanel1.add(jButtonBatalAlatBerat, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, -1, -1));
 
         jButtonDeleteAlatBerat.setText("Delete");
+        jButtonDeleteAlatBerat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteAlatBeratActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelAlatBeratLayout = new javax.swing.GroupLayout(jPanelAlatBerat);
         jPanelAlatBerat.setLayout(jPanelAlatBeratLayout);
@@ -333,6 +371,254 @@ public class MainMenu extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jCmbJenisItemStateChanged
+
+    private void jButtonTambahAlatBeratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTambahAlatBeratActionPerformed
+        handleTambahAlat();
+    }//GEN-LAST:event_jButtonTambahAlatBeratActionPerformed
+
+    private void jButtonUpdateAlatBeratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateAlatBeratActionPerformed
+        // TODO add your handling code here:
+        handleUpdateAlat();
+    }//GEN-LAST:event_jButtonUpdateAlatBeratActionPerformed
+
+    private void jTableAlatBeratMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAlatBeratMouseClicked
+        // TODO add your handling code here:
+        loadAlatToForm();
+    }//GEN-LAST:event_jTableAlatBeratMouseClicked
+
+    private void jButtonDeleteAlatBeratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteAlatBeratActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonDeleteAlatBeratActionPerformed
+
+    private void jButtonBatalAlatBeratMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonBatalAlatBeratMouseClicked
+        // TODO add your handling code here:
+        jTableAlatBerat.clearSelection();
+        clearAlatForm();
+    }//GEN-LAST:event_jButtonBatalAlatBeratMouseClicked
+
+    private void handleTambahAlat() {
+        String jenis = (String) jCmbJenis.getSelectedItem();
+        String nama = jTxtNama.getText().trim();
+        String hargaText = jTxtHarga.getText().trim();
+        String tambahan = jTxtTambahan.getText().trim();
+
+        if (jenis == null || jenis.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Pilih jenis alat berat terlebih dahulu.");
+            return;
+        }
+
+        if (nama.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nama alat berat wajib diisi.");
+            return;
+        }
+
+        double harga;
+        try {
+            harga = Double.parseDouble(hargaText);
+            if (harga <= 0) {
+                JOptionPane.showMessageDialog(this, "Harga sewa harus lebih dari 0.");
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Harga sewa harus berupa angka.");
+            return;
+        }
+
+        if (tambahan.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Property tambahan wajib diisi.");
+            return;
+        }
+
+        String id = nextAlatId();
+        AlatBerat alat;
+        switch (jenis) {
+            case "Bulldozer":
+                alat = new Bulldozer(id, nama, harga, tambahan);
+                break;
+            case "Crane":
+                try {
+                    double kapasitasAngkat = Double.parseDouble(tambahan);
+                    alat = new Crane(id, nama, harga, kapasitasAngkat);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "Kapasitas angkat harus berupa angka.");
+                    return;
+                }
+                break;
+            case "Excavator":
+                try {
+                    double kapasitasBucket = Double.parseDouble(tambahan);
+                    alat = new Excavator(id, nama, harga, kapasitasBucket);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "Kapasitas bucket harus berupa angka.");
+                    return;
+                }
+                break;
+            default:
+                JOptionPane.showMessageDialog(this, "Jenis alat berat tidak dikenali.");
+                return;
+        }
+
+        alatList.add(alat);
+        refreshAlatTable();
+        clearAlatForm();
+    }
+
+    private void refreshAlatTable() {
+        DefaultTableModel model = (DefaultTableModel) jTableAlatBerat.getModel();
+        model.setRowCount(0);
+
+        for (AlatBerat alat : alatList) {
+            String jenis;
+            if (alat instanceof Bulldozer) {
+                jenis = "Bulldozer";
+            } else if (alat instanceof Crane) {
+                jenis = "Crane";
+            } else if (alat instanceof Excavator) {
+                jenis = "Excavator";
+            } else {
+                jenis = "-";
+            }
+
+            model.addRow(new Object[] {
+                alat.getIdAlat(),
+                jenis,
+                alat.getNamaAlat(),
+                (int) alat.getHargaSewaPerHari()
+            });
+        }
+    }
+
+    private String nextAlatId() {
+        int max = 0;
+        for (AlatBerat alat : alatList) {
+            String id = alat.getIdAlat();
+            if (id != null && id.startsWith("AB")) {
+                try {
+                    int value = Integer.parseInt(id.substring(2));
+                    if (value > max) {
+                        max = value;
+                    }
+                } catch (NumberFormatException ex) {
+                    // Skip malformed ids
+                }
+            }
+        }
+        return "AB" + (max + 1);
+    }
+
+    private void clearAlatForm() {
+        jCmbJenis.setSelectedIndex(-1);
+        jCmbJenis.setEnabled(true);
+        jTxtNama.setText("");
+        jTxtHarga.setText("");
+        jTxtTambahan.setText("");
+        labelPropTambahan.setVisible(false);
+        jTxtTambahan.setVisible(false);
+    }
+
+    private void handleUpdateAlat() {
+        int row = jTableAlatBerat.getSelectedRow();
+        if (row < 0 || row >= alatList.size()) {
+            JOptionPane.showMessageDialog(this, "Pilih data pada tabel terlebih dahulu.");
+            return;
+        }
+
+        String id = alatList.get(row).getIdAlat();
+        AlatBerat updated = buildAlatFromForm(id);
+        if (updated == null) {
+            return;
+        }
+
+        alatList.set(row, updated);
+        refreshAlatTable();
+        clearAlatForm();
+        jTableAlatBerat.clearSelection();
+    }
+
+    private AlatBerat buildAlatFromForm(String id) {
+        String jenis = (String) jCmbJenis.getSelectedItem();
+        String nama = jTxtNama.getText().trim();
+        String hargaText = jTxtHarga.getText().trim();
+        String tambahan = jTxtTambahan.getText().trim();
+
+        if (jenis == null || jenis.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Pilih jenis alat berat terlebih dahulu.");
+            return null;
+        }
+
+        if (nama.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nama alat berat wajib diisi.");
+            return null;
+        }
+
+        double harga;
+        try {
+            harga = Double.parseDouble(hargaText);
+            if (harga <= 0) {
+                JOptionPane.showMessageDialog(this, "Harga sewa harus lebih dari 0.");
+                return null;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Harga sewa harus berupa angka.");
+            return null;
+        }
+
+        if (tambahan.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Property tambahan wajib diisi.");
+            return null;
+        }
+
+        switch (jenis) {
+            case "Bulldozer":
+                return new Bulldozer(id, nama, harga, tambahan);
+            case "Crane":
+                try {
+                    double kapasitasAngkat = Double.parseDouble(tambahan);
+                    return new Crane(id, nama, harga, kapasitasAngkat);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "Kapasitas angkat harus berupa angka.");
+                    return null;
+                }
+            case "Excavator":
+                try {
+                    double kapasitasBucket = Double.parseDouble(tambahan);
+                    return new Excavator(id, nama, harga, kapasitasBucket);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "Kapasitas bucket harus berupa angka.");
+                    return null;
+                }
+            default:
+                JOptionPane.showMessageDialog(this, "Jenis alat berat tidak dikenali.");
+                return null;
+        }
+    }
+
+    private void loadAlatToForm() {
+        int row = jTableAlatBerat.getSelectedRow();
+        if (row < 0 || row >= alatList.size()) {
+            return;
+        }
+
+        AlatBerat alat = alatList.get(row);
+        if (alat instanceof Bulldozer) {
+            Bulldozer bulldozer = (Bulldozer) alat;
+            jCmbJenis.setSelectedItem("Bulldozer");
+            jTxtTambahan.setText(bulldozer.getTipeBlade());
+        } else if (alat instanceof Crane) {
+            Crane crane = (Crane) alat;
+            jCmbJenis.setSelectedItem("Crane");
+            jTxtTambahan.setText(String.valueOf(crane.getKapasitasAngkat()));
+        } else if (alat instanceof Excavator) {
+            Excavator excavator = (Excavator) alat;
+            jCmbJenis.setSelectedItem("Excavator");
+            jTxtTambahan.setText(String.valueOf(excavator.getKapasitasBucket()));
+        }
+
+        jCmbJenis.setEnabled(false);
+
+        jTxtNama.setText(alat.getNamaAlat());
+        jTxtHarga.setText(String.valueOf(alat.getHargaSewaPerHari()));
+    }
     
     /**
      * @param args the command line arguments
