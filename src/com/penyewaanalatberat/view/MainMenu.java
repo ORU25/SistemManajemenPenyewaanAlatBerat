@@ -8,6 +8,7 @@ import com.penyewaanalatberat.model.AlatBerat;
 import com.penyewaanalatberat.model.Bulldozer;
 import com.penyewaanalatberat.model.Crane;
 import com.penyewaanalatberat.model.Excavator;
+import com.penyewaanalatberat.model.Penyewaan;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -20,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class MainMenu extends javax.swing.JFrame {
 
     private final List<AlatBerat> alatList = new ArrayList<>();
+    private final List<Penyewaan> penyewaanList = new ArrayList<>();
 
     /**
      * Creates new form MainMenu
@@ -228,6 +230,11 @@ public class MainMenu extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jTablePenyewaan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablePenyewaanMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTablePenyewaan);
 
         jLabel6.setText("Alat Berat");
@@ -237,11 +244,26 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel8.setText("Lama Sewa");
 
         jButtonTambahPenyewaan.setText("Tambah");
+        jButtonTambahPenyewaan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTambahPenyewaanActionPerformed(evt);
+            }
+        });
 
         jButtonUpdatePenyewaan.setText("Update");
         jButtonUpdatePenyewaan.setToolTipText("");
+        jButtonUpdatePenyewaan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdatePenyewaanActionPerformed(evt);
+            }
+        });
 
         jButtonBatalPenyewaan.setText("Batal");
+        jButtonBatalPenyewaan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBatalPenyewaanActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -292,8 +314,18 @@ public class MainMenu extends javax.swing.JFrame {
         );
 
         jButtonDeletePenyewaan.setText("Delete");
+        jButtonDeletePenyewaan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeletePenyewaanActionPerformed(evt);
+            }
+        });
 
         jButtonCari.setText("Cari");
+        jButtonCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCariActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelPenyewaanLayout = new javax.swing.GroupLayout(jPanelPenyewaan);
         jPanelPenyewaan.setLayout(jPanelPenyewaanLayout);
@@ -396,6 +428,152 @@ public class MainMenu extends javax.swing.JFrame {
         clearAlatForm();
     }//GEN-LAST:event_jButtonBatalAlatBeratMouseClicked
 
+    private void jButtonTambahPenyewaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTambahPenyewaanActionPerformed
+        // TODO add your handling code here:
+        int alatIndex = jCmbPilihAlatBerat.getSelectedIndex();
+        String namaPenyewa = jTxtNama1.getText().trim();
+        String lamaSewaText = jTxtHarga1.getText().trim();
+
+        if (alatIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Pilih Alat Berat terlebih dahulu.");
+            return;
+        }
+        if (namaPenyewa.isEmpty() || lamaSewaText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nama Penyewa dan Lama Sewa wajib diisi.");
+            return;
+        }
+
+        try {
+            int lamaSewa = Integer.parseInt(lamaSewaText);
+            if (lamaSewa <= 0) {
+                JOptionPane.showMessageDialog(this, "Lama sewa harus lebih dari 0 hari.");
+                return;
+            }
+            
+            AlatBerat alatDipilih = alatList.get(alatIndex);
+            Penyewaan penyewaan = new Penyewaan(nextPenyewaanId(), namaPenyewa, alatDipilih, lamaSewa);
+            
+            penyewaanList.add(penyewaan);
+            refreshPenyewaanTable();
+            clearPenyewaanForm();
+            JOptionPane.showMessageDialog(this, "Penyewaan berhasil ditambahkan!");
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Lama sewa harus berupa angka.");
+        }
+    }//GEN-LAST:event_jButtonTambahPenyewaanActionPerformed
+
+    private void jButtonUpdatePenyewaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdatePenyewaanActionPerformed
+        // TODO add your handling code here:
+        int row = jTablePenyewaan.getSelectedRow();
+        if (row < 0 || row >= penyewaanList.size()) {
+            JOptionPane.showMessageDialog(this, "Pilih data penyewaan pada tabel terlebih dahulu.");
+            return;
+        }
+
+        String namaPenyewa = jTxtNama1.getText().trim();
+        String lamaSewaText = jTxtHarga1.getText().trim();
+
+        if (namaPenyewa.isEmpty() || lamaSewaText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nama Penyewa dan Lama Sewa wajib diisi.");
+            return;
+        }
+
+        try {
+            int lamaSewa = Integer.parseInt(lamaSewaText);
+            
+            Penyewaan lama = penyewaanList.get(row);
+            Penyewaan update = new Penyewaan(lama.getIdPenyewaan(), namaPenyewa, lama.getAlatBerat(), lamaSewa);
+            
+            penyewaanList.set(row, update);
+            refreshPenyewaanTable();
+            clearPenyewaanForm();
+            jTablePenyewaan.clearSelection();
+            JOptionPane.showMessageDialog(this, "Data berhasil diupdate!");
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Lama sewa harus berupa angka.");
+        }
+    }//GEN-LAST:event_jButtonUpdatePenyewaanActionPerformed
+
+    private void jButtonBatalPenyewaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBatalPenyewaanActionPerformed
+        // TODO add your handling code here:
+        clearPenyewaanForm();
+        jTablePenyewaan.clearSelection();
+        refreshPenyewaanTable();
+    }//GEN-LAST:event_jButtonBatalPenyewaanActionPerformed
+
+    private void jButtonDeletePenyewaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeletePenyewaanActionPerformed
+        // TODO add your handling code here:
+        int row = jTablePenyewaan.getSelectedRow();
+        if (row < 0 || row >= penyewaanList.size()) {
+            JOptionPane.showMessageDialog(this, "Pilih data penyewaan pada tabel terlebih dahulu.");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Hapus data penyewaan ini?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            penyewaanList.remove(row);
+            refreshPenyewaanTable();
+            clearPenyewaanForm();
+        }
+    }//GEN-LAST:event_jButtonDeletePenyewaanActionPerformed
+
+    private void jTablePenyewaanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePenyewaanMouseClicked
+        // TODO add your handling code here:
+        int row = jTablePenyewaan.getSelectedRow();
+        if (row < 0 || row >= penyewaanList.size()) return;
+
+        Penyewaan p = penyewaanList.get(row);
+        
+        for (int i = 0; i < alatList.size(); i++) {
+            if (alatList.get(i).getIdAlat().equals(p.getAlatBerat().getIdAlat())) {
+                jCmbPilihAlatBerat.setSelectedIndex(i);
+                break;
+            }
+        }
+        
+        jCmbPilihAlatBerat.setEnabled(false);
+        jTxtNama1.setText(p.getNamaPenyewa());
+        jTxtHarga1.setText(String.valueOf(p.getLamaSewa()));
+    }//GEN-LAST:event_jTablePenyewaanMouseClicked
+
+    private void jButtonCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCariActionPerformed
+        // TODO add your handling code here:
+        String keyword = jTextCari.getText().trim().toLowerCase();
+        
+        if (keyword.isEmpty()) {
+            refreshPenyewaanTable();
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) jTablePenyewaan.getModel();
+        model.setRowCount(0);
+        
+        boolean isFound = false;
+
+        for (Penyewaan p : penyewaanList) {
+            if (p.getNamaPenyewa().toLowerCase().contains(keyword) || 
+                p.getIdPenyewaan().toLowerCase().contains(keyword)) {
+                
+                model.addRow(new Object[]{
+                    p.getIdPenyewaan(),
+                    p.getNamaPenyewa(),
+                    p.getAlatBerat().getNamaAlat(),
+                    p.getLamaSewa(),
+                    p.getTotalBiaya()
+                });
+                isFound = true;
+            }
+        }
+
+        if (!isFound) {
+            JOptionPane.showMessageDialog(this, "Data dengan kata kunci '" + keyword + "' tidak ditemukan.");
+            refreshPenyewaanTable();
+            jTextCari.setText("");
+        }
+    }//GEN-LAST:event_jButtonCariActionPerformed
+
     private void handleTambahAlat() {
         String jenis = (String) jCmbJenis.getSelectedItem();
         String nama = jTxtNama.getText().trim();
@@ -486,6 +664,7 @@ public class MainMenu extends javax.swing.JFrame {
                 (int) alat.getHargaSewaPerHari()
             });
         }
+        refreshComboBoxAlat();
     }
 
     private String nextAlatId() {
@@ -642,6 +821,49 @@ public class MainMenu extends javax.swing.JFrame {
 
         jTxtNama.setText(alat.getNamaAlat());
         jTxtHarga.setText(String.valueOf(alat.getHargaSewaPerHari()));
+    }
+    
+    private void refreshComboBoxAlat() {
+        jCmbPilihAlatBerat.removeAllItems();
+        for (AlatBerat alat : alatList) {
+            jCmbPilihAlatBerat.addItem(alat.getIdAlat() + " - " + alat.getNamaAlat());
+        }
+    }
+    
+    private void refreshPenyewaanTable() {
+        DefaultTableModel model = (DefaultTableModel) jTablePenyewaan.getModel();
+        model.setRowCount(0);
+
+        for (Penyewaan p : penyewaanList) {
+            model.addRow(new Object[]{
+                p.getIdPenyewaan(),
+                p.getNamaPenyewa(),
+                p.getAlatBerat().getNamaAlat(),
+                p.getLamaSewa(),
+                p.getTotalBiaya()
+            });
+        }
+    }
+    
+    private void clearPenyewaanForm() {
+        jCmbPilihAlatBerat.setSelectedIndex(-1);
+        jCmbPilihAlatBerat.setEnabled(true);
+        jTxtNama1.setText("");
+        jTxtHarga1.setText("");
+    }
+    
+    private String nextPenyewaanId() {
+        int max = 0;
+        for (Penyewaan p : penyewaanList) {
+            String id = p.getIdPenyewaan();
+            if (id != null && id.startsWith("SEWA")) {
+                try {
+                    int value = Integer.parseInt(id.substring(4));
+                    if (value > max) max = value;
+                } catch (NumberFormatException ex) {}
+            }
+        }
+        return "SEWA" + (max + 1);
     }
     
     /**
