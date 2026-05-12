@@ -10,7 +10,7 @@ import com.penyewaanalatberat.model.Crane;
 import com.penyewaanalatberat.model.Excavator;
 import com.penyewaanalatberat.model.Penyewaan;
 import com.penyewaanalatberat.service.AlatBeratService;
-import java.util.ArrayList;
+import com.penyewaanalatberat.service.PenyewaanService;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,8 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class MainMenu extends javax.swing.JFrame {
 
     private AlatBeratService alatBeratService = new AlatBeratService();
-    
-    private final List<Penyewaan> penyewaanList = new ArrayList<>();
+    private PenyewaanService penyewaanService = new PenyewaanService();
 
     /**
      * Creates new form MainMenu
@@ -490,93 +489,67 @@ public class MainMenu extends javax.swing.JFrame {
         clearAlatForm();
     }//GEN-LAST:event_jButtonBatalAlatBeratMouseClicked
 
+    // TAMBAH
     private void jButtonTambahPenyewaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTambahPenyewaanActionPerformed
         // TODO add your handling code here:
         int alatIndex = jCmbPilihAlatBerat.getSelectedIndex();
-        String namaPenyewa = jTxtNama1.getText().trim();
-        String lamaSewaText = jTxtHarga1.getText().trim();
-
-        if (alatIndex < 0) {
-            JOptionPane.showMessageDialog(this, "Pilih Alat Berat terlebih dahulu.");
-            return;
-        }
-        if (namaPenyewa.isEmpty() || lamaSewaText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nama Penyewa dan Lama Sewa wajib diisi.");
-            return;
-        }
+        String namaPenyewa = jTxtNama1.getText();
+        String lamaSewaText = jTxtHarga1.getText();
 
         try {
-            int lamaSewa = Integer.parseInt(lamaSewaText);
-            if (lamaSewa <= 0) {
-                JOptionPane.showMessageDialog(this, "Lama sewa harus lebih dari 0 hari.");
-                return;
-            }
+            AlatBerat alatDipilih = alatIndex >= 0 ? alatBeratService.getByIndex(alatIndex) : null;
+            penyewaanService.tambahPenyewaan(namaPenyewa, lamaSewaText, alatDipilih);
             
-            AlatBerat alatDipilih = alatBeratService.getByIndex(alatIndex);
-            Penyewaan penyewaan = new Penyewaan(nextPenyewaanId(), namaPenyewa, alatDipilih, lamaSewa);
-            
-            penyewaanList.add(penyewaan);
-            refreshPenyewaanTable();
+            refreshPenyewaanTable(penyewaanService.getAll());
             clearPenyewaanForm();
             JOptionPane.showMessageDialog(this, "Penyewaan berhasil ditambahkan!");
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Lama sewa harus berupa angka.");
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_jButtonTambahPenyewaanActionPerformed
 
+    // UPDATE
     private void jButtonUpdatePenyewaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdatePenyewaanActionPerformed
         // TODO add your handling code here:
         int row = jTablePenyewaan.getSelectedRow();
-        if (row < 0 || row >= penyewaanList.size()) {
-            JOptionPane.showMessageDialog(this, "Pilih data penyewaan pada tabel terlebih dahulu.");
-            return;
-        }
-
-        String namaPenyewa = jTxtNama1.getText().trim();
-        String lamaSewaText = jTxtHarga1.getText().trim();
-
-        if (namaPenyewa.isEmpty() || lamaSewaText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nama Penyewa dan Lama Sewa wajib diisi.");
-            return;
-        }
+        int alatIndex = jCmbPilihAlatBerat.getSelectedIndex();
+        String namaPenyewa = jTxtNama1.getText();
+        String lamaSewaText = jTxtHarga1.getText();
 
         try {
-            int lamaSewa = Integer.parseInt(lamaSewaText);
+            AlatBerat alatBaru = alatIndex >= 0 ? alatBeratService.getByIndex(alatIndex) : null;
+            penyewaanService.updatePenyewaan(row, namaPenyewa, lamaSewaText, alatBaru);
             
-            Penyewaan lama = penyewaanList.get(row);
-            Penyewaan update = new Penyewaan(lama.getIdPenyewaan(), namaPenyewa, lama.getAlatBerat(), lamaSewa);
-            
-            penyewaanList.set(row, update);
-            refreshPenyewaanTable();
+            refreshPenyewaanTable(penyewaanService.getAll());
             clearPenyewaanForm();
             jTablePenyewaan.clearSelection();
             JOptionPane.showMessageDialog(this, "Data berhasil diupdate!");
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Lama sewa harus berupa angka.");
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_jButtonUpdatePenyewaanActionPerformed
 
+    // BATAL / CLEAR FORM
     private void jButtonBatalPenyewaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBatalPenyewaanActionPerformed
         // TODO add your handling code here:
         clearPenyewaanForm();
         jTablePenyewaan.clearSelection();
-        refreshPenyewaanTable();
+        refreshPenyewaanTable(penyewaanService.getAll());
     }//GEN-LAST:event_jButtonBatalPenyewaanActionPerformed
 
+    // DELETE
     private void jButtonDeletePenyewaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeletePenyewaanActionPerformed
         // TODO add your handling code here:
         int row = jTablePenyewaan.getSelectedRow();
-        if (row < 0 || row >= penyewaanList.size()) {
+        if (row < 0 || row >= penyewaanService.getAll().size()) {
             JOptionPane.showMessageDialog(this, "Pilih data penyewaan pada tabel terlebih dahulu.");
             return;
         }
 
         int confirm = JOptionPane.showConfirmDialog(this, "Hapus data penyewaan ini?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            penyewaanList.remove(row);
-            refreshPenyewaanTable();
+            penyewaanService.hapusPenyewaan(row);
+            refreshPenyewaanTable(penyewaanService.getAll());
             clearPenyewaanForm();
         }
     }//GEN-LAST:event_jButtonDeletePenyewaanActionPerformed
@@ -584,10 +557,9 @@ public class MainMenu extends javax.swing.JFrame {
     private void jTablePenyewaanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePenyewaanMouseClicked
         // TODO add your handling code here:
         int row = jTablePenyewaan.getSelectedRow();
-        if (row < 0 || row >= penyewaanList.size()) return;
+        if (row < 0 || row >= penyewaanService.getAll().size()) return;
 
-        Penyewaan p = penyewaanList.get(row);
-        
+        Penyewaan p = penyewaanService.getByIndex(row);
         List<AlatBerat> alatList = alatBeratService.getAll();
         
         for (int i = 0; i < alatList.size(); i++) {
@@ -597,44 +569,28 @@ public class MainMenu extends javax.swing.JFrame {
             }
         }
         
-        jCmbPilihAlatBerat.setEnabled(false);
+        jCmbPilihAlatBerat.setEnabled(true); 
+        
         jTxtNama1.setText(p.getNamaPenyewa());
         jTxtHarga1.setText(String.valueOf(p.getLamaSewa()));
     }//GEN-LAST:event_jTablePenyewaanMouseClicked
 
+    // SEARCH DATA
     private void jButtonCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCariActionPerformed
         // TODO add your handling code here:
-        String keyword = jTextCari.getText().trim().toLowerCase();
-        
+        String keyword = jTextCari.getText().trim();
         if (keyword.isEmpty()) {
-            refreshPenyewaanTable();
+            refreshPenyewaanTable(penyewaanService.getAll());
             return;
         }
 
-        DefaultTableModel model = (DefaultTableModel) jTablePenyewaan.getModel();
-        model.setRowCount(0);
-        
-        boolean isFound = false;
-
-        for (Penyewaan p : penyewaanList) {
-            if (p.getNamaPenyewa().toLowerCase().contains(keyword) || 
-                p.getIdPenyewaan().toLowerCase().contains(keyword)) {
-                
-                model.addRow(new Object[]{
-                    p.getIdPenyewaan(),
-                    p.getNamaPenyewa(),
-                    p.getAlatBerat().getNamaAlat(),
-                    p.getLamaSewa(),
-                    p.getTotalBiaya()
-                });
-                isFound = true;
-            }
-        }
-
-        if (!isFound) {
+        List<Penyewaan> hasil = penyewaanService.cariPenyewaan(keyword);
+        if (hasil.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Data dengan kata kunci '" + keyword + "' tidak ditemukan.");
-            refreshPenyewaanTable();
+            refreshPenyewaanTable(penyewaanService.getAll());
             jTextCari.setText("");
+        } else {
+            refreshPenyewaanTable(hasil);
         }
     }//GEN-LAST:event_jButtonCariActionPerformed
 
@@ -718,11 +674,11 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }
     
-    private void refreshPenyewaanTable() {
+    private void refreshPenyewaanTable(List<Penyewaan> listData) {
         DefaultTableModel model = (DefaultTableModel) jTablePenyewaan.getModel();
         model.setRowCount(0);
 
-        for (Penyewaan p : penyewaanList) {
+        for (Penyewaan p : listData) {
             model.addRow(new Object[]{
                 p.getIdPenyewaan(),
                 p.getNamaPenyewa(),
@@ -738,20 +694,6 @@ public class MainMenu extends javax.swing.JFrame {
         jCmbPilihAlatBerat.setEnabled(true);
         jTxtNama1.setText("");
         jTxtHarga1.setText("");
-    }
-    
-    private String nextPenyewaanId() {
-        int max = 0;
-        for (Penyewaan p : penyewaanList) {
-            String id = p.getIdPenyewaan();
-            if (id != null && id.startsWith("SEWA")) {
-                try {
-                    int value = Integer.parseInt(id.substring(4));
-                    if (value > max) max = value;
-                } catch (NumberFormatException ex) {}
-            }
-        }
-        return "SEWA" + (max + 1);
     }
     
     /**
