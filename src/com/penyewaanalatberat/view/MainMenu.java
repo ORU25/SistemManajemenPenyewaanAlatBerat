@@ -428,7 +428,7 @@ public class MainMenu extends javax.swing.JFrame {
     // UPDATE
     private void jButtonUpdateAlatBeratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateAlatBeratActionPerformed
         int row = jTableAlatBerat.getSelectedRow();
-        if (row < 0 || row >= alatBeratService.getSemuaAlat().size()) {
+        if (row < 0 || row >= alatBeratService.getAll().size()) {
             JOptionPane.showMessageDialog(this, "Pilih data pada tabel terlebih dahulu.");
             return;
         }
@@ -460,7 +460,7 @@ public class MainMenu extends javax.swing.JFrame {
     // DELETE
     private void jButtonDeleteAlatBeratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteAlatBeratActionPerformed
         int row = jTableAlatBerat.getSelectedRow();
-        if (row < 0 || row >= alatBeratService.getSemuaAlat().size()) {
+        if (row < 0 || row >= alatBeratService.getAll().size()) {
             JOptionPane.showMessageDialog(this, "Pilih data pada tabel terlebih dahulu.");
             return;
         }
@@ -588,7 +588,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         Penyewaan p = penyewaanList.get(row);
         
-        List<AlatBerat> alatList = alatBeratService.getSemuaAlat();
+        List<AlatBerat> alatList = alatBeratService.getAll();
         
         for (int i = 0; i < alatList.size(); i++) {
             if (alatList.get(i).getIdAlat().equals(p.getAlatBerat().getIdAlat())) {
@@ -642,7 +642,7 @@ public class MainMenu extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTableAlatBerat.getModel();
         model.setRowCount(0);
 
-        for (AlatBerat alat : alatBeratService.getSemuaAlat()) {
+        for (AlatBerat alat : alatBeratService.getAll()) {
             String jenis;
             String spesifikasi = "-";
             
@@ -685,7 +685,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void loadAlatToForm() {
         int row = jTableAlatBerat.getSelectedRow();
-        if (row < 0 || row >= alatBeratService.getSemuaAlat().size()) {
+        if (row < 0 || row >= alatBeratService.getAll().size()) {
             return;
         }
 
@@ -713,7 +713,7 @@ public class MainMenu extends javax.swing.JFrame {
     
     private void refreshComboBoxAlat() {
         jCmbPilihAlatBerat.removeAllItems();
-        for (AlatBerat alat : alatBeratService.getSemuaAlat()) {
+        for (AlatBerat alat : alatBeratService.getAll()) {
             jCmbPilihAlatBerat.addItem(alat.getIdAlat() + " - " + alat.getNamaAlat());
         }
     }

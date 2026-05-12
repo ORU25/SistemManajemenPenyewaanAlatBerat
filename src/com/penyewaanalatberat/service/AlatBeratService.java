@@ -19,7 +19,7 @@ public class AlatBeratService {
 
     private String generateAlatId() {
         int max = 0;
-        for (AlatBerat alat : repository.getSemuaAlat()) {
+        for (AlatBerat alat : repository.getAll()) {
             String id = alat.getIdAlat();
             if (id != null && id.startsWith("AB")) {
                 try {
@@ -34,8 +34,8 @@ public class AlatBeratService {
         return "AB" + (max + 1);
     }
 
-    public List<AlatBerat> getSemuaAlat() {
-        return repository.getSemuaAlat();
+    public List<AlatBerat> getAll() {
+        return repository.getAll();
     }
 
     public AlatBerat getByIndex(int index) {
@@ -98,7 +98,7 @@ public class AlatBeratService {
     }
     
     public void updateAlatBerat(int index, String jenis, String nama, String hargaText, String tambahan) {
-        if (index < 0 || index >= repository.getSemuaAlat().size()) {
+        if (index < 0 || index >= repository.getAll().size()) {
             throw new IllegalArgumentException("Data tidak ditemukan.");
         }
         
