@@ -3,11 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package com.penyewaanalatberat.interfaces;
+import java.util.List;
 
 /**
  *
  * @author oru
  */
-public interface LayananSewa {
-    double hitungTotalBiaya();
+public interface Repository<Type> {
+    List<Type> getAll();
+    Type getByIndex(int index);
+    void tambah(Type T);
+    void update(int index, Type T);
+    void hapus(int index);
 }

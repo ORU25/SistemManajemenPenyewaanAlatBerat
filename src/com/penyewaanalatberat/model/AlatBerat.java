@@ -28,9 +28,6 @@ public abstract class AlatBerat {
         this.hargaSewaPerHari = hargaSewaPerHari;
     }
 
-    protected void cetakInfoAlat() {
-        System.out.println("Alat Berat   : " + this.namaAlat + " (Rp" + this.hargaSewaPerHari + "/hari)");
-    }
 
     public abstract double hitungBiayaAlat(int lamaSewa);
 }

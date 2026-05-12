@@ -21,16 +21,10 @@ public class Crane extends AlatBerat {
     }
 
     @Override
-    protected void cetakInfoAlat() {
-        super.cetakInfoAlat();
-        System.out.println("Spesifikasi  : Kapasitas Angkat " + this.kapasitasAngkat + " Ton");
-    }
-
-    @Override
     public double hitungBiayaAlat(int lamaSewa) {
         double totalDasar = this.hargaSewaPerHari * lamaSewa;
+        // Diskon Spesial Crane 15% diterapkan (Sewa >= 3 Hari)
         if (lamaSewa >= 3) {
-            System.out.println("   [!] Diskon Spesial Crane 15% diterapkan (Sewa >= 3 Hari)");
             return totalDasar * 0.85;
         }
         return totalDasar;
