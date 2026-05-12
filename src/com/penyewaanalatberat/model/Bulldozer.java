@@ -21,16 +21,10 @@ public class Bulldozer extends AlatBerat{
     }
     
     @Override
-    protected void cetakInfoAlat() {
-        super.cetakInfoAlat();
-        System.out.println("Spesifikasi  : Tipe Blade " + this.tipeBlade);
-    }
-
-    @Override
     public double hitungBiayaAlat(int lamaSewa) {
         double totalDasar = this.hargaSewaPerHari * lamaSewa;
+        // Diskon Bulldozer 5% diterapkan (Sewa >= 5 Hari)
         if (lamaSewa >= 5) {
-            System.out.println("   [!] Diskon Bulldozer 5% diterapkan (Sewa >= 5 Hari)");
             return totalDasar * 0.95;
         }
         return totalDasar;

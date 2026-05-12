@@ -10,5 +10,4 @@ package com.penyewaanalatberat.interfaces;
  */
 public interface LayananSewa {
     double hitungTotalBiaya();
-    void cetakStruk();
 }

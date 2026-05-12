@@ -9,6 +9,7 @@ import com.penyewaanalatberat.model.Bulldozer;
 import com.penyewaanalatberat.model.Crane;
 import com.penyewaanalatberat.model.Excavator;
 import com.penyewaanalatberat.model.Penyewaan;
+import com.penyewaanalatberat.service.AlatBeratService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -20,7 +21,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MainMenu extends javax.swing.JFrame {
 
-    private final List<AlatBerat> alatList = new ArrayList<>();
+    private AlatBeratService alatBeratService = new AlatBeratService();
+    
     private final List<Penyewaan> penyewaanList = new ArrayList<>();
 
     /**
@@ -28,7 +30,7 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() {
         initComponents();
-        // Hide property field dulu
+
         labelPropTambahan.setVisible(false);
         jTxtTambahan.setVisible(false);
         jCmbJenis.setSelectedIndex(-1);
@@ -111,11 +113,11 @@ public class MainMenu extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Jenis", "Nama", "Harga Sewa"
+                "ID", "Jenis", "Nama", "Harga Sewa", "Spek"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -404,24 +406,84 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jCmbJenisItemStateChanged
 
+    // TAMBAH
     private void jButtonTambahAlatBeratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTambahAlatBeratActionPerformed
-        handleTambahAlat();
+        String jenis = (String) jCmbJenis.getSelectedItem();
+        String nama = jTxtNama.getText();
+        String hargaText = jTxtHarga.getText();
+        String tambahan = jTxtTambahan.getText();
+
+        try {
+            alatBeratService.tambahAlatBerat(jenis, nama, hargaText, tambahan);
+            
+            refreshAlatTable();
+            clearAlatForm();
+            JOptionPane.showMessageDialog(this, "Alat berat berhasil ditambahkan!");
+            
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }//GEN-LAST:event_jButtonTambahAlatBeratActionPerformed
 
+    // UPDATE
     private void jButtonUpdateAlatBeratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateAlatBeratActionPerformed
-        // TODO add your handling code here:
-        handleUpdateAlat();
+        int row = jTableAlatBerat.getSelectedRow();
+        if (row < 0 || row >= alatBeratService.getSemuaAlat().size()) {
+            JOptionPane.showMessageDialog(this, "Pilih data pada tabel terlebih dahulu.");
+            return;
+        }
+
+        String jenis = (String) jCmbJenis.getSelectedItem();
+        String nama = jTxtNama.getText();
+        String hargaText = jTxtHarga.getText();
+        String tambahan = jTxtTambahan.getText();
+
+        try {
+            alatBeratService.updateAlatBerat(row, jenis, nama, hargaText, tambahan);
+            
+            refreshAlatTable();
+            clearAlatForm();
+            jTableAlatBerat.clearSelection();
+            JOptionPane.showMessageDialog(this, "Data berhasil diupdate!");
+            
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }//GEN-LAST:event_jButtonUpdateAlatBeratActionPerformed
 
+    // LOAD DATA TO FORM
     private void jTableAlatBeratMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAlatBeratMouseClicked
         // TODO add your handling code here:
         loadAlatToForm();
     }//GEN-LAST:event_jTableAlatBeratMouseClicked
 
+    // DELETE
     private void jButtonDeleteAlatBeratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteAlatBeratActionPerformed
-        handleDeleteAlat();
+        int row = jTableAlatBerat.getSelectedRow();
+        if (row < 0 || row >= alatBeratService.getSemuaAlat().size()) {
+            JOptionPane.showMessageDialog(this, "Pilih data pada tabel terlebih dahulu.");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Hapus data alat berat yang dipilih?",
+                "Konfirmasi",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        alatBeratService.hapusAlatBerat(row);
+
+        refreshAlatTable();
+        jTableAlatBerat.clearSelection();
+        clearAlatForm();
     }//GEN-LAST:event_jButtonDeleteAlatBeratActionPerformed
 
+    // BATAL / CLEAR FORM
     private void jButtonBatalAlatBeratMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonBatalAlatBeratMouseClicked
         // TODO add your handling code here:
         jTableAlatBerat.clearSelection();
@@ -450,7 +512,7 @@ public class MainMenu extends javax.swing.JFrame {
                 return;
             }
             
-            AlatBerat alatDipilih = alatList.get(alatIndex);
+            AlatBerat alatDipilih = alatBeratService.getByIndex(alatIndex);
             Penyewaan penyewaan = new Penyewaan(nextPenyewaanId(), namaPenyewa, alatDipilih, lamaSewa);
             
             penyewaanList.add(penyewaan);
@@ -526,6 +588,8 @@ public class MainMenu extends javax.swing.JFrame {
 
         Penyewaan p = penyewaanList.get(row);
         
+        List<AlatBerat> alatList = alatBeratService.getSemuaAlat();
+        
         for (int i = 0; i < alatList.size(); i++) {
             if (alatList.get(i).getIdAlat().equals(p.getAlatBerat().getIdAlat())) {
                 jCmbPilihAlatBerat.setSelectedIndex(i);
@@ -574,85 +638,26 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonCariActionPerformed
 
-    private void handleTambahAlat() {
-        String jenis = (String) jCmbJenis.getSelectedItem();
-        String nama = jTxtNama.getText().trim();
-        String hargaText = jTxtHarga.getText().trim();
-        String tambahan = jTxtTambahan.getText().trim();
-
-        if (jenis == null || jenis.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Pilih jenis alat berat terlebih dahulu.");
-            return;
-        }
-
-        if (nama.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nama alat berat wajib diisi.");
-            return;
-        }
-
-        double harga;
-        try {
-            harga = Double.parseDouble(hargaText);
-            if (harga <= 0) {
-                JOptionPane.showMessageDialog(this, "Harga sewa harus lebih dari 0.");
-                return;
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Harga sewa harus berupa angka.");
-            return;
-        }
-
-        if (tambahan.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Property tambahan wajib diisi.");
-            return;
-        }
-
-        String id = nextAlatId();
-        AlatBerat alat;
-        switch (jenis) {
-            case "Bulldozer":
-                alat = new Bulldozer(id, nama, harga, tambahan);
-                break;
-            case "Crane":
-                try {
-                    double kapasitasAngkat = Double.parseDouble(tambahan);
-                    alat = new Crane(id, nama, harga, kapasitasAngkat);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Kapasitas angkat harus berupa angka.");
-                    return;
-                }
-                break;
-            case "Excavator":
-                try {
-                    double kapasitasBucket = Double.parseDouble(tambahan);
-                    alat = new Excavator(id, nama, harga, kapasitasBucket);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Kapasitas bucket harus berupa angka.");
-                    return;
-                }
-                break;
-            default:
-                JOptionPane.showMessageDialog(this, "Jenis alat berat tidak dikenali.");
-                return;
-        }
-
-        alatList.add(alat);
-        refreshAlatTable();
-        clearAlatForm();
-    }
-
     private void refreshAlatTable() {
         DefaultTableModel model = (DefaultTableModel) jTableAlatBerat.getModel();
         model.setRowCount(0);
 
-        for (AlatBerat alat : alatList) {
+        for (AlatBerat alat : alatBeratService.getSemuaAlat()) {
             String jenis;
+            String spesifikasi = "-";
+            
             if (alat instanceof Bulldozer) {
                 jenis = "Bulldozer";
+                Bulldozer bulldozer = (Bulldozer) alat;
+                spesifikasi = "Blade: " + bulldozer.getTipeBlade();
             } else if (alat instanceof Crane) {
                 jenis = "Crane";
+                Crane crane = (Crane) alat;
+                spesifikasi = "Kapasitas: " + crane.getKapasitasAngkat() + " Ton";
             } else if (alat instanceof Excavator) {
                 jenis = "Excavator";
+                Excavator excavator = (Excavator) alat;
+                spesifikasi = "Kapasitas: " + excavator.getKapasitasBucket() + " m³";
             } else {
                 jenis = "-";
             }
@@ -661,28 +666,11 @@ public class MainMenu extends javax.swing.JFrame {
                 alat.getIdAlat(),
                 jenis,
                 alat.getNamaAlat(),
-                (int) alat.getHargaSewaPerHari()
+                (int) alat.getHargaSewaPerHari(),
+                spesifikasi
             });
         }
         refreshComboBoxAlat();
-    }
-
-    private String nextAlatId() {
-        int max = 0;
-        for (AlatBerat alat : alatList) {
-            String id = alat.getIdAlat();
-            if (id != null && id.startsWith("AB")) {
-                try {
-                    int value = Integer.parseInt(id.substring(2));
-                    if (value > max) {
-                        max = value;
-                    }
-                } catch (NumberFormatException ex) {
-                    // Skip malformed ids
-                }
-            }
-        }
-        return "AB" + (max + 1);
     }
 
     private void clearAlatForm() {
@@ -695,114 +683,14 @@ public class MainMenu extends javax.swing.JFrame {
         jTxtTambahan.setVisible(false);
     }
 
-    private void handleUpdateAlat() {
-        int row = jTableAlatBerat.getSelectedRow();
-        if (row < 0 || row >= alatList.size()) {
-            JOptionPane.showMessageDialog(this, "Pilih data pada tabel terlebih dahulu.");
-            return;
-        }
-
-        String id = alatList.get(row).getIdAlat();
-        AlatBerat updated = buildAlatFromForm(id);
-        if (updated == null) {
-            return;
-        }
-
-        alatList.set(row, updated);
-        refreshAlatTable();
-        clearAlatForm();
-        jTableAlatBerat.clearSelection();
-    }
-
-    private void handleDeleteAlat() {
-        int row = jTableAlatBerat.getSelectedRow();
-        if (row < 0 || row >= alatList.size()) {
-            JOptionPane.showMessageDialog(this, "Pilih data pada tabel terlebih dahulu.");
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "Hapus data alat berat yang dipilih?",
-                "Konfirmasi",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirm != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-        alatList.remove(row);
-        refreshAlatTable();
-        jTableAlatBerat.clearSelection();
-        clearAlatForm();
-    }
-
-    private AlatBerat buildAlatFromForm(String id) {
-        String jenis = (String) jCmbJenis.getSelectedItem();
-        String nama = jTxtNama.getText().trim();
-        String hargaText = jTxtHarga.getText().trim();
-        String tambahan = jTxtTambahan.getText().trim();
-
-        if (jenis == null || jenis.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Pilih jenis alat berat terlebih dahulu.");
-            return null;
-        }
-
-        if (nama.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nama alat berat wajib diisi.");
-            return null;
-        }
-
-        double harga;
-        try {
-            harga = Double.parseDouble(hargaText);
-            if (harga <= 0) {
-                JOptionPane.showMessageDialog(this, "Harga sewa harus lebih dari 0.");
-                return null;
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Harga sewa harus berupa angka.");
-            return null;
-        }
-
-        if (tambahan.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Property tambahan wajib diisi.");
-            return null;
-        }
-
-        switch (jenis) {
-            case "Bulldozer":
-                return new Bulldozer(id, nama, harga, tambahan);
-            case "Crane":
-                try {
-                    double kapasitasAngkat = Double.parseDouble(tambahan);
-                    return new Crane(id, nama, harga, kapasitasAngkat);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Kapasitas angkat harus berupa angka.");
-                    return null;
-                }
-            case "Excavator":
-                try {
-                    double kapasitasBucket = Double.parseDouble(tambahan);
-                    return new Excavator(id, nama, harga, kapasitasBucket);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Kapasitas bucket harus berupa angka.");
-                    return null;
-                }
-            default:
-                JOptionPane.showMessageDialog(this, "Jenis alat berat tidak dikenali.");
-                return null;
-        }
-    }
-
     private void loadAlatToForm() {
         int row = jTableAlatBerat.getSelectedRow();
-        if (row < 0 || row >= alatList.size()) {
+        if (row < 0 || row >= alatBeratService.getSemuaAlat().size()) {
             return;
         }
 
-        AlatBerat alat = alatList.get(row);
+        // Ambil alat dari service
+        AlatBerat alat = alatBeratService.getByIndex(row);
         if (alat instanceof Bulldozer) {
             Bulldozer bulldozer = (Bulldozer) alat;
             jCmbJenis.setSelectedItem("Bulldozer");
@@ -825,7 +713,7 @@ public class MainMenu extends javax.swing.JFrame {
     
     private void refreshComboBoxAlat() {
         jCmbPilihAlatBerat.removeAllItems();
-        for (AlatBerat alat : alatList) {
+        for (AlatBerat alat : alatBeratService.getSemuaAlat()) {
             jCmbPilihAlatBerat.addItem(alat.getIdAlat() + " - " + alat.getNamaAlat());
         }
     }
