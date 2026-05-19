@@ -29,7 +29,7 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() {
         initComponents();
-
+        
         labelPropTambahan.setVisible(false);
         jTxtTambahan.setVisible(false);
         jCmbJenis.setSelectedIndex(-1);
@@ -48,6 +48,23 @@ public class MainMenu extends javax.swing.JFrame {
 
         jTabbedPane5 = new javax.swing.JTabbedPane();
         jPanelHome = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanelPenyewaan = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTablePenyewaan = new javax.swing.JTable();
+        jTextCari = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jCmbPilihAlatBerat = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        jTxtNama1 = new javax.swing.JTextField();
+        jTxtHarga1 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jButtonTambahPenyewaan = new javax.swing.JButton();
+        jButtonUpdatePenyewaan = new javax.swing.JButton();
+        jButtonBatalPenyewaan = new javax.swing.JButton();
+        jButtonDeletePenyewaan = new javax.swing.JButton();
+        jButtonCari = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanelAlatBerat = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -65,155 +82,20 @@ public class MainMenu extends javax.swing.JFrame {
         jButtonUpdateAlatBerat = new javax.swing.JButton();
         jButtonBatalAlatBerat = new javax.swing.JButton();
         jButtonDeleteAlatBerat = new javax.swing.JButton();
-        jPanelPenyewaan = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTablePenyewaan = new javax.swing.JTable();
-        jTextCari = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jCmbPilihAlatBerat = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
-        jTxtNama1 = new javax.swing.JTextField();
-        jTxtHarga1 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jButtonTambahPenyewaan = new javax.swing.JButton();
-        jButtonUpdatePenyewaan = new javax.swing.JButton();
-        jButtonBatalPenyewaan = new javax.swing.JButton();
-        jButtonDeletePenyewaan = new javax.swing.JButton();
-        jButtonCari = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Sistem Manajemen Penyewaan Alat Berat");
+        jPanelHome.setLayout(null);
 
-        javax.swing.GroupLayout jPanelHomeLayout = new javax.swing.GroupLayout(jPanelHome);
-        jPanelHome.setLayout(jPanelHomeLayout);
-        jPanelHomeLayout.setHorizontalGroup(
-            jPanelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelHomeLayout.createSequentialGroup()
-                .addGap(180, 180, 180)
-                .addComponent(jLabel1)
-                .addContainerGap(259, Short.MAX_VALUE))
-        );
-        jPanelHomeLayout.setVerticalGroup(
-            jPanelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelHomeLayout.createSequentialGroup()
-                .addGap(190, 190, 190)
-                .addComponent(jLabel1)
-                .addContainerGap(197, Short.MAX_VALUE))
-        );
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Selamat Datang (5).png"))); // NOI18N
+        jPanelHome.add(jLabel5);
+        jLabel5.setBounds(0, 0, 890, 530);
 
         jTabbedPane5.addTab("Home", jPanelHome);
 
-        jTableAlatBerat.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Jenis", "Nama", "Harga Sewa", "Spek"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jTableAlatBerat.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableAlatBeratMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTableAlatBerat);
-
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setText("Jenis");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 3, -1, -1));
-
-        jCmbJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bulldozer", "Crane", "Excavator" }));
-        jCmbJenis.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCmbJenisItemStateChanged(evt);
-            }
-        });
-        jPanel1.add(jCmbJenis, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 0, 191, -1));
-
-        jLabel3.setText("Nama");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 34, -1, -1));
-        jPanel1.add(jTxtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 34, 191, -1));
-
-        jLabel4.setText("Harga Sewa");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 77, -1, -1));
-        jPanel1.add(jTxtHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 74, 191, -1));
-
-        labelPropTambahan.setText("Property Tambahan");
-        jPanel1.add(labelPropTambahan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 117, -1, -1));
-        jPanel1.add(jTxtTambahan, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 114, 191, -1));
-
-        jButtonTambahAlatBerat.setText("Tambah");
-        jButtonTambahAlatBerat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonTambahAlatBeratActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButtonTambahAlatBerat, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, -1));
-
-        jButtonUpdateAlatBerat.setText("Update");
-        jButtonUpdateAlatBerat.setToolTipText("");
-        jButtonUpdateAlatBerat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonUpdateAlatBeratActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButtonUpdateAlatBerat, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, -1, -1));
-
-        jButtonBatalAlatBerat.setText("Batal");
-        jButtonBatalAlatBerat.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonBatalAlatBeratMouseClicked(evt);
-            }
-        });
-        jPanel1.add(jButtonBatalAlatBerat, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, -1, -1));
-
-        jButtonDeleteAlatBerat.setText("Delete");
-        jButtonDeleteAlatBerat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDeleteAlatBeratActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelAlatBeratLayout = new javax.swing.GroupLayout(jPanelAlatBerat);
-        jPanelAlatBerat.setLayout(jPanelAlatBeratLayout);
-        jPanelAlatBeratLayout.setHorizontalGroup(
-            jPanelAlatBeratLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAlatBeratLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addGroup(jPanelAlatBeratLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDeleteAlatBerat))
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
-        jPanelAlatBeratLayout.setVerticalGroup(
-            jPanelAlatBeratLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAlatBeratLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(jPanelAlatBeratLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelAlatBeratLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonDeleteAlatBerat))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
-
-        jTabbedPane5.addTab("Alat Berat", jPanelAlatBerat);
+        jPanelPenyewaan.setLayout(null);
 
         jTablePenyewaan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -237,6 +119,11 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(jTablePenyewaan);
+
+        jPanelPenyewaan.add(jScrollPane2);
+        jScrollPane2.setBounds(20, 97, 858, 180);
+        jPanelPenyewaan.add(jTextCari);
+        jTextCari.setBounds(570, 290, 309, 22);
 
         jLabel6.setText("Alat Berat");
 
@@ -314,12 +201,17 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
+        jPanelPenyewaan.add(jPanel2);
+        jPanel2.setBounds(20, 300, 382, 174);
+
         jButtonDeletePenyewaan.setText("Delete");
         jButtonDeletePenyewaan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDeletePenyewaanActionPerformed(evt);
             }
         });
+        jPanelPenyewaan.add(jButtonDeletePenyewaan);
+        jButtonDeletePenyewaan.setBounds(800, 221, 72, 23);
 
         jButtonCari.setText("Cari");
         jButtonCari.addActionListener(new java.awt.event.ActionListener() {
@@ -327,43 +219,109 @@ public class MainMenu extends javax.swing.JFrame {
                 jButtonCariActionPerformed(evt);
             }
         });
+        jPanelPenyewaan.add(jButtonCari);
+        jButtonCari.setBounds(490, 290, 72, 23);
 
-        javax.swing.GroupLayout jPanelPenyewaanLayout = new javax.swing.GroupLayout(jPanelPenyewaan);
-        jPanelPenyewaan.setLayout(jPanelPenyewaanLayout);
-        jPanelPenyewaanLayout.setHorizontalGroup(
-            jPanelPenyewaanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPenyewaanLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(jPanelPenyewaanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelPenyewaanLayout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
-                        .addComponent(jButtonDeletePenyewaan))
-                    .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPenyewaanLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonCari)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextCari, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(14, 14, 14))
-        );
-        jPanelPenyewaanLayout.setVerticalGroup(
-            jPanelPenyewaanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelPenyewaanLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanelPenyewaanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonCari))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelPenyewaanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDeletePenyewaan))
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Alat Berat (1).png"))); // NOI18N
+        jPanelPenyewaan.add(jLabel1);
+        jLabel1.setBounds(0, 0, 890, 530);
 
         jTabbedPane5.addTab("Penyewaan", jPanelPenyewaan);
+
+        jPanelAlatBerat.setLayout(null);
+
+        jTableAlatBerat.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Jenis", "Nama", "Harga Sewa", "Spek"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTableAlatBerat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableAlatBeratMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableAlatBerat);
+
+        jPanelAlatBerat.add(jScrollPane1);
+        jScrollPane1.setBounds(50, 110, 411, 363);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setText("Jenis");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jCmbJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bulldozer", "Crane", "Excavator" }));
+        jCmbJenis.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCmbJenisItemStateChanged(evt);
+            }
+        });
+        jPanel1.add(jCmbJenis, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 191, -1));
+
+        jLabel3.setText("Nama");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        jPanel1.add(jTxtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 191, -1));
+
+        jLabel4.setText("Harga Sewa");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+        jPanel1.add(jTxtHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 191, -1));
+
+        labelPropTambahan.setText("Property Tambahan");
+        jPanel1.add(labelPropTambahan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+        jPanel1.add(jTxtTambahan, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 191, -1));
+
+        jButtonTambahAlatBerat.setText("Tambah");
+        jButtonTambahAlatBerat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTambahAlatBeratActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonTambahAlatBerat, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+
+        jButtonUpdateAlatBerat.setText("Update");
+        jButtonUpdateAlatBerat.setToolTipText("");
+        jButtonUpdateAlatBerat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateAlatBeratActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonUpdateAlatBerat, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, -1, -1));
+
+        jButtonBatalAlatBerat.setText("Batal");
+        jButtonBatalAlatBerat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonBatalAlatBeratMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jButtonBatalAlatBerat, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, -1, -1));
+
+        jButtonDeleteAlatBerat.setText("Delete");
+        jButtonDeleteAlatBerat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteAlatBeratActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonDeleteAlatBerat, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, -1, -1));
+
+        jPanelAlatBerat.add(jPanel1);
+        jPanel1.setBounds(483, 110, 340, 170);
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Alat Berat (1).png"))); // NOI18N
+        jPanelAlatBerat.add(jLabel9);
+        jLabel9.setBounds(0, 0, 886, 530);
+
+        jTabbedPane5.addTab("Alat Berat", jPanelAlatBerat);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -373,9 +331,7 @@ public class MainMenu extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 12, Short.MAX_VALUE)
-                .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jTabbedPane5, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
@@ -747,9 +703,11 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelAlatBerat;
